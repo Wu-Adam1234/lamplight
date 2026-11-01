@@ -272,7 +272,8 @@ static class LanternIcon
         var glow = Math.Clamp(level, 0f, 1f);
         if (glow > 0)
         {
-            using var light = new SolidBrush(Color.FromArgb((int)(120 * glow), flame));
+            // Soft enough that the flame still stands out against the glass at 16 px.
+            using var light = new SolidBrush(Color.FromArgb((int)(55 * glow), flame));
             using var glassFill = Rounded(glass, 1.6f);
             g.FillPath(light, glassFill);
         }
