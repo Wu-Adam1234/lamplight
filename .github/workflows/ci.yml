@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  macos:
+    name: macOS app
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Swift version
+        run: swift --version
+      - name: Unit tests
+        run: swift test
+      - name: Build the app bundle
+        run: scripts/build-app.sh "$(cat VERSION)"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Lamplight-macOS
+          path: dist/Lamplight-*.zip
+
+  windows:
+    name: Windows app
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Build, test and package
+        run: scripts/build-windows.sh "$(cat VERSION)"
+      - name: Render the tray icon on real Windows
+        run: dist/windows/win-x64/Lamplight.exe --render-icons icon-check
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Lamplight-Windows
+          path: dist/Lamplight-*-windows-*.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tray-icon-check
+          path: icon-check/

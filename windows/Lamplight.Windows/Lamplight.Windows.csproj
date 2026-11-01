@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <!-- Lets the Windows app build on macOS and Linux too (CI still builds on Windows). -->
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>Lamplight</AssemblyName>
+    <RootNamespace>Lamplight.Windows</RootNamespace>
+    <ApplicationIcon>Lamplight.ico</ApplicationIcon>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <ApplicationVisualStyles>true</ApplicationVisualStyles>
+    <Version>1.0.0</Version>
+    <Product>Lamplight</Product>
+    <Company>Adam Wu</Company>
+    <Authors>Adam Wu</Authors>
+    <Copyright>© 2026 Adam Wu. MIT License.</Copyright>
+    <Description>Keeps your PC awake, lid open or closed.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lamplight.Core\Lamplight.Core.csproj" />
+  </ItemGroup>
+
+</Project>
