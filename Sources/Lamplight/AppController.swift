@@ -388,11 +388,20 @@ final class AppController: NSObject, NSApplicationDelegate, NSMenuDelegate {
             setIcon(level: lit ? 1 : 0)
         }
         shownLit = lit
+        let title: String
         if let current = session, showTimeInMenuBar, let left = current.remaining(at: Date()) {
-            button.title = " " + TimeText.compact(left)
+            title = " " + TimeText.compact(left)
         } else {
-            button.title = ""
+            title = ""
         }
+        if button.title != title { button.title = title }
+        // Icon only when there's no time: an empty title still reserved space, and the menu bar
+        // drew the neighbouring item (Discette) partly under the lantern.
+        let position: NSControl.ImagePosition = title.isEmpty ? .imageOnly : .imageLeading
+        if button.imagePosition != position { button.imagePosition = position }
+        // A square slot is exactly icon-sized, like the system's own items; widen only for the countdown.
+        let length = title.isEmpty ? NSStatusItem.squareLength : NSStatusItem.variableLength
+        if statusItem.length != length { statusItem.length = length }
         button.toolTip = lit
             ? "Lamplight is keeping your Mac awake. Click to turn off, right-click for options."
             : "Lamplight is off. Click to turn on, right-click for options."
